@@ -1,9 +1,9 @@
 ---
 resources:
-  - name: code
+  - name: first-concource-pipline
     type: git
     source:
-      uri: https://github.com/meAmidos/dcind
+      uri: https://github.com/kalyan3439/dockerplipline
 
 
   - name: redis
@@ -20,7 +20,7 @@ resources:
 jobs:
   - name: unit-tests
     plan:
-      - get: code
+      - get: first-concource-pipline
         params: {depth: 1}
       - task: Run unit tests
         config:
@@ -30,7 +30,7 @@ jobs:
             source:
               repository: busybox
           inputs:
-            - name: code
+            - name: first-concource-pipline
           run:
             path: sh
             args:
@@ -41,7 +41,7 @@ jobs:
   - name: integration
     plan:
       - aggregate:
-        - get: code
+        - get: first-concource-pipline
           params: {depth: 1}
           passed: [unit-tests]
           trigger: true
@@ -58,7 +58,7 @@ jobs:
             source:
               repository: amidos/dcind
           inputs:
-            - name: code
+            - name: first-concource-pipline
             - name: redis
             - name: busybox
           run:
